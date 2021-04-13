@@ -1,18 +1,35 @@
+
+
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <h1>{{ brewery }}</h1>
+    <p>Enter an address: <input type="text" v-model="searchAddress"></p>
+    <button v-on:click="findBreweries()">Find brewery</button>
   </div>
 </template>
 
-<script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
+<style>
+</style>
 
+<script>
+import axios from "axios";
 export default {
-  name: 'Home',
-  components: {
-    HelloWorld
+  data: function() {
+    return {
+      message: "Welcome to Vue.js!",
+      searchAddress: "",
+      brewery: {}
+    };
+  },
+  created: function() {},
+  methods: {
+    findBreweries: function() {
+      axios.get("/api/breweries?search=" + this.searchAddress).then(response => {
+        console.log(response.data)
+        this.brewery = response.data;
+      });
+    }
   }
-}
+};
 </script>
+
